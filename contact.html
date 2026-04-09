@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Guardian AI</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #1A1A1A;
+      color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 20px 48px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      color: #CC0000;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .logo span {
+      color: #FFFFFF;
+    }
+
+    .tagline {
+      font-size: 13px;
+      color: #888888;
+      margin-top: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .divider {
+      width: 40px;
+      height: 3px;
+      background: #CC0000;
+      border-radius: 2px;
+      margin: 16px auto 0;
+    }
+
+    .contact-info {
+      background: #242424;
+      border: 1px solid #333333;
+      border-radius: 12px;
+      padding: 16px 20px;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 24px;
+    }
+
+    .contact-info-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 4px;
+    }
+
+    .contact-info-company {
+      font-size: 13px;
+      color: #CC0000;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .contact-info-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .contact-info-row a {
+      font-size: 13px;
+      color: #AAAAAA;
+      text-decoration: none;
+    }
+
+    .contact-info-row a:hover {
+      color: #FFFFFF;
+    }
+
+    .contact-info-label {
+      font-size: 11px;
+      color: #555555;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: 44px;
+      flex-shrink: 0;
+    }
+
+    .card {
+      background: #242424;
+      border: 1px solid #333333;
+      border-radius: 16px;
+      padding: 24px 20px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    select,
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      background: #1A1A1A;
+      border: 1px solid #333333;
+      border-radius: 10px;
+      color: #FFFFFF;
+      font-size: 15px;
+      font-family: inherit;
+      padding: 13px 14px;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus,
+    input:focus,
+    textarea:focus {
+      border-color: #CC0000;
+    }
+
+    select option {
+      background: #1A1A1A;
+      color: #FFFFFF;
+    }
+
+    select.placeholder {
+      color: #666666;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 0;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.3s ease;
+    }
+
+    .field-group.visible {
+      max-height: 900px;
+      opacity: 1;
+      margin-top: 14px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .field-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: #CC0000;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 15px;
+      margin-top: 16px;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      transition: background 0.2s, transform 0.1s;
+      font-family: inherit;
+    }
+
+    .submit-btn:hover {
+      background: #AA0000;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .submit-btn:disabled {
+      background: #555555;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 32px 20px;
+    }
+
+    .thank-you-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(204,0,0,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .thank-you-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .thank-you-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .thank-you-text {
+      font-size: 14px;
+      color: #888888;
+      line-height: 1.5;
+    }
+
+    .footer {
+      margin-top: 32px;
+      font-size: 12px;
+      color: #444444;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">Guardian <span>AI</span></div>
+    <div class="tagline">AI-Powered Safety for the Oilfield</div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="contact-info">
+    <div class="contact-info-name">David Sanchez</div>
+    <div class="contact-info-company">ID Resources LLC</div>
+    <div class="contact-info-row">
+      <span class="contact-info-label">Phone</span>
+      <a href="tel:4325289214">432.528.9214</a>
+    </div>
+    <div class="contact-info-row">
+      <span class="contact-info-label">Email</span>
+      <a href="mailto:id.resourcesllc@gmail.com">id.resourcesllc@gmail.com</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Get in Touch</div>
+
+    <form
+      id="contact-form"
+      action="https://formspree.io/f/xaqlzewo"
+      method="POST"
+    >
+      <input type="hidden" name="_subject" value="Guardian AI Contact Form" />
+      <input type="hidden" name="inquiry_type" id="inquiry-type-hidden" value="" />
+
+      <!-- Reason dropdown -->
+      <select id="reason-select" name="reason" class="placeholder" required>
+        <option value="" disabled selected>Select the reason for your inquiry...</option>
+        <option value="support">I am an employee using Guardian AI needing support</option>
+        <option value="interest">I am interested in Guardian AI for my company</option>
+      </select>
+
+      <!-- Support fields -->
+      <div class="field-group" id="fields-support">
+        <div class="field-wrap">
+          <div class="field-label">Full Name</div>
+          <input type="text" name="full_name" placeholder="Your full name" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Company Name</div>
+          <input type="text" name="company_name" placeholder="Your company" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Phone Number</div>
+          <input type="tel" name="phone" placeholder="Your phone number" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Email Address</div>
+          <input type="email" name="email" placeholder="Your email address" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Message / Question</div>
+          <textarea name="message" placeholder="Describe your issue or question..."></textarea>
+        </div>
+      </div>
+
+      <!-- Interest fields -->
+      <div class="field-group" id="fields-interest">
+        <div class="field-wrap">
+          <div class="field-label">Full Name</div>
+          <input type="text" name="full_name_interest" placeholder="Your full name" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Company Name</div>
+          <input type="text" name="company_name_interest" placeholder="Your company" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Phone Number</div>
+          <input type="tel" name="phone_interest" placeholder="Your phone number" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Email Address</div>
+          <input type="email" name="email_interest" placeholder="Your email address" />
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Number of Employees</div>
+          <select name="company_size" class="placeholder" id="company-size-select">
+            <option value="" disabled selected>Select company size</option>
+            <option value="1-10">1–10</option>
+            <option value="11-50">11–50</option>
+            <option value="51-100">51–100</option>
+            <option value="100+">100+</option>
+          </select>
+        </div>
+        <div class="field-wrap">
+          <div class="field-label">Message / Question</div>
+          <textarea name="message_interest" placeholder="Tell us about your company and safety needs..."></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn" disabled>Send Message</button>
+    </form>
+
+    <div class="thank-you" id="thank-you">
+      <div class="thank-you-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#CC0000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+      </div>
+      <div class="thank-you-title">Message Sent!</div>
+      <div class="thank-you-text">Thank you! We will be in touch shortly.</div>
+    </div>
+  </div>
+
+  <div class="footer">Guardian AI &middot; ID Resources LLC &middot; Midland, Texas</div>
+
+  <script>
+    var reasonSelect = document.getElementById('reason-select');
+    var fieldsSupport = document.getElementById('fields-support');
+    var fieldsInterest = document.getElementById('fields-interest');
+    var inquiryTypeHidden = document.getElementById('inquiry-type-hidden');
+    var submitBtn = document.getElementById('submit-btn');
+    var companySizeSelect = document.getElementById('company-size-select');
+    var form = document.getElementById('contact-form');
+    var thankYou = document.getElementById('thank-you');
+
+    // Toggle required attributes for fields in a group
+    function setRequired(group, required) {
+      var inputs = group.querySelectorAll('input, textarea, select:not([id="reason-select"])');
+      for (var i = 0; i < inputs.length; i++) {
+        if (required) {
+          inputs[i].setAttribute('required', '');
+        } else {
+          inputs[i].removeAttribute('required');
+        }
+      }
+    }
+
+    // Initially no fields are required
+    setRequired(fieldsSupport, false);
+    setRequired(fieldsInterest, false);
+
+    reasonSelect.addEventListener('change', function () {
+      var val = this.value;
+
+      // Update dropdown color
+      this.classList.remove('placeholder');
+
+      // Update hidden field
+      inquiryTypeHidden.value = val === 'support'
+        ? 'Employee Support'
+        : 'Interest in Guardian AI';
+
+      // Show/hide field groups
+      if (val === 'support') {
+        fieldsSupport.classList.add('visible');
+        fieldsInterest.classList.remove('visible');
+        setRequired(fieldsSupport, true);
+        setRequired(fieldsInterest, false);
+      } else if (val === 'interest') {
+        fieldsInterest.classList.add('visible');
+        fieldsSupport.classList.remove('visible');
+        setRequired(fieldsInterest, true);
+        setRequired(fieldsSupport, false);
+      }
+
+      submitBtn.disabled = false;
+    });
+
+    // Style company size select on change
+    companySizeSelect.addEventListener('change', function () {
+      this.classList.remove('placeholder');
+    });
+
+    // Handle Formspree AJAX submission
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      var data = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function (response) {
+        if (response.ok) {
+          form.style.display = 'none';
+          thankYou.style.display = 'block';
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+          alert('Something went wrong. Please try again or email id.resourcesllc@gmail.com directly.');
+        }
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+        alert('Something went wrong. Please try again or email id.resourcesllc@gmail.com directly.');
+      });
+    });
+  </script>
+
+</body>
+</html>
